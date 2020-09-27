@@ -1,18 +1,3 @@
-/*
-Copyright © 2020 NAME HERE <EMAIL ADDRESS>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package cmd
 
 import (
@@ -20,12 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-
-	homedir "github.com/mitchellh/go-homedir"
-	"github.com/spf13/viper"
 )
-
-var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -39,7 +19,35 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Run: func(c *cobra.Command, args []string) {
+		fmt.Println("hello ggg")
+		// フラグ名で値を取得する
+		indexed, err := c.PersistentFlags().GetBool("indexed")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		directed, err := c.PersistentFlags().GetBool("directed")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		weighted, err := c.PersistentFlags().GetBool("weighted")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		format, err := c.PersistentFlags().GetBool("format")
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+
+		fmt.Println("indexed: ", indexed)
+		fmt.Println("directed: ", directed)
+		fmt.Println("weighted: ", weighted)
+		fmt.Println("format: ", format)
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -52,41 +60,13 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
-
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.ggg.yaml)")
-
 	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-// initConfig reads in config file and ENV variables if set.
-func initConfig() {
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := homedir.Dir()
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-
-		// Search config in home directory with name ".ggg" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigName(".ggg")
-	}
-
-	viper.AutomaticEnv() // read in environment variables that match
-
-	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
-	}
+	rootCmd.PersistentFlags().BoolP("indexed", "i", true, "graph is 1-indexed")
+	rootCmd.PersistentFlags().BoolP("directed", "d", false, "graph is directed")
+	rootCmd.PersistentFlags().BoolP("weighted", "w", false, "graph is weighted")
+	rootCmd.PersistentFlags().BoolP("format", "f", true, "graph format is normal")
 }
