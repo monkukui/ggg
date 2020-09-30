@@ -1,4 +1,8 @@
 # ggg(go GRAPH × GRAPH)
+
+<img width="264" alt="スクリーンショット 2020-09-30 22 50 16" src="https://user-images.githubusercontent.com/47474057/94693994-55c29200-036f-11eb-827c-1aa72a166f64.png">
+
+
 `ggg` is a CLI tool for visualizing graph
 
 `ggg` は、グラフ理論可視化サイト「GRAPH × GRAPH」をターミナル上で起動するための CLI ツールです。
