@@ -1,26 +1,28 @@
 package cmd
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
+	"log"
 	"os"
+	"os/exec"
+	"runtime"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
 
-// rootCmd represents the base command when called without any subcommands
+// rootcmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "ggg",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "CLI tool for visualizing graph structure",
+	Long: `hoge
+This application is a tool to visualize graph structure.
+`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(c *cobra.Command, args []string) {
-		fmt.Println("hello ggg")
 		// フラグ名で値を取得する
 		indexed, err := c.PersistentFlags().GetBool("indexed")
 		if err != nil {
@@ -47,7 +49,94 @@ to quickly create a Cobra application.`,
 		fmt.Println("directed: ", directed)
 		fmt.Println("weighted: ", weighted)
 		fmt.Println("format: ", format)
+
+		// validation をかけながら、入力を読む
+		var url string
+		if format {
+			url, err = readGraph(indexed, directed, weighted)
+			if err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			// TODO 隣接行列に対応
+			fmt.Println("隣接行列にはまだ対応していません")
+		}
+
+		if err := openbrowser(url); err != nil {
+			log.Fatal(err)
+		}
 	},
+}
+
+func readGraph(indexed, directed, weighted bool) (string, error) {
+
+	tf := map[bool]string{true: "true", false: "false"}
+
+	hostUrl := "https://hello-world-494ec.firebaseapp.com/index.html"
+	var queryUrl = bytes.NewBuffer(make([]byte, 0, 100))
+	queryUrl.WriteString("indexed=" + tf[indexed] + "&directed=" + tf[directed] + "&weighted=" + tf[weighted])
+	queryUrl.WriteString("&format=true&data=")
+
+	var n, m int
+	fmt.Scan(&n, &m)
+	if n <= 0 {
+		return "", errors.New("n must be positive integer")
+	}
+
+	if m < 0 {
+		return "", errors.New("m must be non negative integer")
+	}
+
+	queryUrl.WriteString(strconv.Itoa(n) + "-" + strconv.Itoa(m))
+
+	for i := 0; i < m; i++ {
+		var a, b, c int
+
+		if weighted {
+			fmt.Scan(&a, &b, &c)
+			queryUrl.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b) + "-" + strconv.Itoa(c))
+		} else {
+			fmt.Scan(&a, &b)
+			queryUrl.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b))
+		}
+
+		if indexed {
+			// a, b must be [1, n]
+			for _, x := range []int{a, b} {
+				if !(1 <= x && x <= n) {
+					return "", errors.New(fmt.Sprintf("node must be in the range [%d %d]\n", 1, n))
+				}
+			}
+		} else {
+			// a, b must be [0, n - 1]
+			for _, x := range []int{a, b} {
+				if !(0 <= x && x <= n-1) {
+					return "", errors.New(fmt.Sprintf("node must be in the range [%d %d]\n", 0, n-1))
+				}
+			}
+		}
+	}
+
+	url := hostUrl + "?" + queryUrl.String()
+
+	return url, nil
+}
+
+func openbrowser(url string) error {
+	var err error
+
+	switch runtime.GOOS {
+	case "linux":
+		err = exec.Command("xdg-open", url).Start()
+	case "windows":
+		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+	case "darwin":
+		err = exec.Command("open", url).Start()
+	default:
+		err = fmt.Errorf("unsupported platform")
+	}
+
+	return err
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
