@@ -6,6 +6,10 @@
 **注意**
 このツールはβ版です。バグがある場合があります。
 
+## Requirement
+
+- `go1.15.1`
+
 ## Install
 ```
 go get -u github.com/monkukui/ggg
