@@ -17,7 +17,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "ggg",
 	Short: "CLI tool for visualizing graph structure",
-	Long: `hoge
+	Long: `
 This application is a tool to visualize graph structure.
 `,
 	// Uncomment the following line if your bare application
@@ -59,7 +59,7 @@ This application is a tool to visualize graph structure.
 			}
 		} else {
 			// TODO 隣接行列に対応
-			fmt.Println("隣接行列にはまだ対応していません")
+			log.Fatal(errors.New("隣接行列にはまだ対応していません"))
 		}
 
 		if err := openbrowser(url); err != nil {
