@@ -16,7 +16,7 @@
 
 ## Install
 ```
-go get -u github.com/monkukui/ggg
+> go get -u github.com/monkukui/ggg
 ```
 
 ## Usage
