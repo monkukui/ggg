@@ -53,4 +53,6 @@ ggg --help
 ### Visualize
 グラフが可視化されます。
 
+<img width="301" alt="スクリーンショット 2020-09-30 22 49 33" src="https://user-images.githubusercontent.com/47474057/94693893-3b88b400-036f-11eb-87ef-a64ad4c00f63.png">
+
 
