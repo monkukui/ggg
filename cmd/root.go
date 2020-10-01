@@ -45,27 +45,28 @@ by optional flags.
 			fmt.Println(err)
 			return
 		}
-		matrix, err := c.PersistentFlags().GetBool("matrix")
+		/* matrix, err := c.PersistentFlags().GetBool("matrix")
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
+		*/
 
 		fmt.Println("")
 		fmt.Println("Option:")
 		fmt.Println("  indexed: ", indexed)
 		fmt.Println("  directed: ", directed)
 		fmt.Println("  weighted: ", weighted)
-		fmt.Println("  matrix: ", matrix)
+		// fmt.Println("  matrix: ", matrix)
 		printGraphImage(indexed, directed, weighted)
-		printGraphFormat(indexed, directed, weighted, matrix)
+		printGraphFormat(indexed, directed, weighted, false)
 
 		fmt.Println("")
 		fmt.Println("please input your graph below...")
 
 		// validation をかけながら、入力を読む
 		var url string
-		if matrix {
+		if false {
 			// TODO 隣接行列に対応
 			log.Fatal(errors.New("隣接行列にはまだ対応していません"))
 		} else {
@@ -246,5 +247,5 @@ func init() {
 	rootCmd.PersistentFlags().BoolP("indexed", "i", true, "graph is 1-indexed（if you want to visualize 0-indexed graph, you should add `-i=false` option）")
 	rootCmd.PersistentFlags().BoolP("directed", "d", false, "graph is directed")
 	rootCmd.PersistentFlags().BoolP("weighted", "w", false, "graph is weighted")
-	rootCmd.PersistentFlags().BoolP("matrix", "m", false, "graph format is matrix")
+	// rootCmd.PersistentFlags().BoolP("matrix", "m", false, "graph format is matrix")
 }
