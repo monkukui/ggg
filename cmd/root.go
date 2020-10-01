@@ -13,16 +13,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// rootcmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "ggg",
-	Short: "CLI tool for visualizing graph structure",
+	Short: "CLI tool for visualizing graph",
 	Long: `
-This application is a tool to visualize graph structure.
+This application is a tool to visualize graph.
+You can select
+
+・1-indexed / 0-indexed
+・directed / undirected
+・weighted / unweighted
+
+by optional flags.
+
 `,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
 	Run: func(c *cobra.Command, args []string) {
+		printLogo()
 		// フラグ名で値を取得する
 		indexed, err := c.PersistentFlags().GetBool("indexed")
 		if err != nil {
@@ -39,33 +45,122 @@ This application is a tool to visualize graph structure.
 			fmt.Println(err)
 			return
 		}
-		format, err := c.PersistentFlags().GetBool("format")
+		matrix, err := c.PersistentFlags().GetBool("matrix")
 		if err != nil {
 			fmt.Println(err)
 			return
 		}
 
-		fmt.Println("indexed: ", indexed)
-		fmt.Println("directed: ", directed)
-		fmt.Println("weighted: ", weighted)
-		fmt.Println("format: ", format)
+		fmt.Println("")
+		fmt.Println("Option:")
+		fmt.Println("  indexed: ", indexed)
+		fmt.Println("  directed: ", directed)
+		fmt.Println("  weighted: ", weighted)
+		fmt.Println("  matrix: ", matrix)
+		printGraphImage(indexed, directed, weighted)
+		printGraphFormat(indexed, directed, weighted, matrix)
+
+		fmt.Println("")
+		fmt.Println("please input your graph below...")
 
 		// validation をかけながら、入力を読む
 		var url string
-		if format {
+		if matrix {
+			// TODO 隣接行列に対応
+			log.Fatal(errors.New("隣接行列にはまだ対応していません"))
+		} else {
 			url, err = readGraph(indexed, directed, weighted)
 			if err != nil {
 				log.Fatal(err)
 			}
-		} else {
-			// TODO 隣接行列に対応
-			log.Fatal(errors.New("隣接行列にはまだ対応していません"))
 		}
 
 		if err := openbrowser(url); err != nil {
 			log.Fatal(err)
 		}
 	},
+}
+
+func printLogo() {
+	fmt.Println("go GRAPH × GRAPH")
+	fmt.Println("version 1.0.0")
+}
+
+func printGraphFormat(indexed, directed, weighted, matrix bool) {
+	if matrix {
+		return
+	}
+
+	n := 3
+	m := 2
+
+	u1 := 1
+	v1 := 2
+	w1 := 5
+
+	u2 := 1
+	v2 := 2
+	w2 := 7
+
+	if !indexed {
+		u1--
+		u2--
+		v1--
+		v2--
+	}
+
+	fmt.Println("")
+	fmt.Println("Format:")
+	fmt.Println("  ", n, m, "     (the number of nodes, the number of edges )")
+	if weighted {
+		fmt.Println("  ", u1, v1, w1, "   (edge infomations.. )")
+		fmt.Println("  ", u2, v2, w2)
+	} else {
+		fmt.Println("  ", u1, v1, "     (edge infomations.. )")
+		fmt.Println("  ", u2, v2)
+	}
+}
+
+func printGraphImage(indexed, directed, weighted bool) {
+
+	/*
+	   ①  ----- ② ----- ③
+	*/
+
+	var nodeLeft, nodeMiddle, nodeRight string
+	if indexed {
+		nodeLeft = "①"
+		nodeMiddle = "②"
+		nodeRight = "③"
+	} else {
+		nodeLeft = "⓪"
+		nodeMiddle = "①"
+		nodeRight = "②"
+	}
+
+	var weightLeft, weightRight string
+	if weighted {
+		weightLeft = "5"
+		weightRight = "7"
+	} else {
+		weightLeft = "-"
+		weightRight = "-"
+	}
+
+	var arrow string
+	if directed {
+		arrow = ">"
+	} else {
+		arrow = "-"
+	}
+
+	fmt.Println("")
+	fmt.Println("Image:")
+	fmt.Println("  ---------------------")
+	fmt.Println("  |                   |")
+	fmt.Println("  |", nodeLeft, "--"+weightLeft+"-"+arrow, nodeMiddle, "--"+weightRight+"-"+arrow, nodeRight, "|")
+	fmt.Println("  |                   |")
+	fmt.Println("  ---------------------")
 }
 
 func readGraph(indexed, directed, weighted bool) (string, error) {
@@ -78,6 +173,7 @@ func readGraph(indexed, directed, weighted bool) (string, error) {
 	queryUrl.WriteString("&format=true&data=")
 
 	var n, m int
+	fmt.Print(">>> ")
 	fmt.Scan(&n, &m)
 	if n <= 0 {
 		return "", errors.New("n must be positive integer")
@@ -90,8 +186,8 @@ func readGraph(indexed, directed, weighted bool) (string, error) {
 	queryUrl.WriteString(strconv.Itoa(n) + "-" + strconv.Itoa(m))
 
 	for i := 0; i < m; i++ {
-		var a, b, c int
 
+		var a, b, c int
 		if weighted {
 			fmt.Scan(&a, &b, &c)
 			queryUrl.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b) + "-" + strconv.Itoa(c))
@@ -139,8 +235,6 @@ func openbrowser(url string) error {
 	return err
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -149,13 +243,8 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// Cobra also supports local flags, which will only run
-	rootCmd.PersistentFlags().BoolP("indexed", "i", true, "graph is 1-indexed")
+	rootCmd.PersistentFlags().BoolP("indexed", "i", true, "graph is 1-indexed（if you want to visualize 0-indexed graph, you should `-i=false` option）")
 	rootCmd.PersistentFlags().BoolP("directed", "d", false, "graph is directed")
 	rootCmd.PersistentFlags().BoolP("weighted", "w", false, "graph is weighted")
-	rootCmd.PersistentFlags().BoolP("format", "f", true, "graph format is normal")
+	rootCmd.PersistentFlags().BoolP("matrix", "m", false, "graph format is matrix")
 }
