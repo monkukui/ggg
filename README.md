@@ -84,3 +84,48 @@ Command line flag syntax を用いて、グラフの形式を変更できます�
 |  `-d, --directed`  |  有向でグラフであることを指定します。  | false |
 |  `-w, --weighted`  |  重み付きグラフであることを指定します。 | false |
 
+
+### Case Study
+
+#### 1-indexed、重みなし無向グラフ
+
+```
+❯ ggg
+
+（省略）
+
+please input your graph below...
+>>> 
+3 2
+1 2
+2 3
+```
+
+#### 0-indexed、重みなし有向グラフ
+
+```
+❯ ggg --directed
+
+（省略）
+
+please input your graph below...
+>>> 
+3 2
+1 2
+2 3
+```
+
+#### 1-indexed、重みあり有向グラフ
+
+```
+❯ ggg --directed --weighted
+
+（省略）
+
+please input your graph below...
+>>> 
+3 2
+1 2 3
+2 3 5
+```
+
