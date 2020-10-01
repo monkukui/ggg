@@ -8,7 +8,6 @@
 `ggg` は、グラフ理論可視化サイト「GRAPH × GRAPH」をターミナル上で起動するための CLI ツールです。
 
 **注意**
-このツールはβ版です。バグがある場合があります。
 
 ## Requirement
 
@@ -19,7 +18,7 @@
 > go get -u github.com/monkukui/ggg
 ```
 
-## Usage
+## Usage（簡易版）
 
 各種オプションで、
 - 有向・無向
@@ -59,4 +58,29 @@ ggg --help
 
 <img width="301" alt="スクリーンショット 2020-09-30 22 49 33" src="https://user-images.githubusercontent.com/47474057/94693893-3b88b400-036f-11eb-87ef-a64ad4c00f63.png">
 
+
+
+## Usage（詳細）
+
+### 起動方法
+```
+❯ ggg
+```
+で起動します。
+
+### ヘルプコマンド
+
+```
+❯ ggg --help
+```
+でヘルプを表示します。
+
+### オプション
+Command line flag syntax を用いて、グラフの形式を変更できます。
+
+|  Flags  |  Description  | default |
+| ---- | ---- | ---- |
+|  `-i, --indexed`  |  1-indexed であることを指定します。  | true |
+|  `-d, --directed`  |  有向でグラフであることを指定します。  | false |
+|  `-w, --weighted`  |  重み付きグラフであることを指定します。 | false |
 
