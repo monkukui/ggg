@@ -60,7 +60,7 @@ by optional flags.
 		printLogo()
 		fmt.Println("")
 		fmt.Println("Options:")
-		fmt.Println("   indexed: ", indexed)
+		fmt.Println("   indexed: ", i)
 		fmt.Println("   directed: ", directed)
 		fmt.Println("   weighted: ", weighted)
 		// fmt.Println("  matrix: ", matrix)
