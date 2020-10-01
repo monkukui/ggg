@@ -24,7 +24,7 @@
 各種オプションで、
 - 有向・無向
 - 重み付き・重みなし
-- 1-indexed・0-indexes
+- 1-indexed・0-indexed
 
 を選択できます。
 
