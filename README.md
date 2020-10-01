@@ -85,7 +85,7 @@ Command line flag syntax を用いて、グラフの形式を変更できます�
 
 |  Flags  |  Description  | default | Usage |
 | ---- | ---- | ---- | ---- |
-|  `-i, --indexed`  |  1-indexed であることを指定します。  | true | `-i=0`, `-i=1`, `--indexed 0` |
+|  `-i, --indexed`  |  1-indexed であることを指定します。  | true | `-i 0`, `-i 1`, `--indexed=0`, `--indexed=1` |
 |  `-d, --directed`  |  有向でグラフであることを指定します。  | false | `-d` |
 |  `-w, --weighted`  |  重み付きグラフであることを指定します。 | false | `-w` |
 
@@ -102,7 +102,7 @@ Options:
    directed:  false
    weighted:  false
 
-Exaple:
+Example:
 
    [1] ----- [2] ----- [3]
 
@@ -132,7 +132,7 @@ Options:
    directed:  true
    weighted:  false
 
-Exaple:
+Example:
 
    [0] ----> [1] ----> [2]
 
@@ -161,7 +161,7 @@ Options:
    directed:  true
    weighted:  true
 
-Exaple:
+Example:
 
    [1] --5-> [2] --7-> [3]
 
