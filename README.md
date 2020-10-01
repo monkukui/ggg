@@ -14,7 +14,7 @@
 
 - `go1.15.1`
 
-## Install
+## Install（Update）
 ```
 > go get -u github.com/monkukui/ggg
 ```
