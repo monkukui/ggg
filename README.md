@@ -18,6 +18,11 @@
 > go get -u github.com/monkukui/ggg
 ```
 
+```
+ggg --help
+```
+を叩いて、起動すれば成功です。
+
 ## Usage（簡易版）
 
 各種オプションで、
@@ -80,9 +85,9 @@ Command line flag syntax を用いて、グラフの形式を変更できます�
 
 |  Flags  |  Description  | default | Usage |
 | ---- | ---- | ---- | ---- |
-|  `-i, --indexed`  |  1-indexed であることを指定します。  | true | `-i=0`, `-i=1`, `--indexed 0` |
+|  `-i, --indexed`  |  1-indexed であることを指定します。  | true | `-i 0`, `-i 1`, `--indexed=0`, `--indexed=1` |
 |  `-d, --directed`  |  有向でグラフであることを指定します。  | false | `-d` |
-|  `-w, --weighted`  |  重み付きグラフであることを指定します。 | false | `w` |
+|  `-w, --weighted`  |  重み付きグラフであることを指定します。 | false | `-w` |
 
 
 ### Case Study
@@ -97,7 +102,7 @@ Options:
    directed:  false
    weighted:  false
 
-Exaple:
+Example:
 
    [1] ----- [2] ----- [3]
 
@@ -127,7 +132,7 @@ Options:
    directed:  true
    weighted:  false
 
-Exaple:
+Example:
 
    [0] ----> [1] ----> [2]
 
@@ -144,6 +149,8 @@ Please input your graph.
 2 0
 ```
 
+<img width="202" alt="スクリーンショット 2020-10-01 17 23 22" src="https://user-images.githubusercontent.com/47474057/94785633-e1d5c780-040a-11eb-97af-7e71ee0a64b8.png">
+
 #### 1-indexed、重みあり有向グラフ
 
 ```
@@ -154,7 +161,7 @@ Options:
    directed:  true
    weighted:  true
 
-Exaple:
+Example:
 
    [1] --5-> [2] --7-> [3]
 
@@ -170,3 +177,4 @@ Please input your graph.
 2 3 7
 ```
 
+<img width="202" alt="スクリーンショット 2020-10-01 17 24 03" src="https://user-images.githubusercontent.com/47474057/94785659-eb5f2f80-040a-11eb-8a91-692c94972c1b.png">
