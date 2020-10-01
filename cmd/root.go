@@ -171,7 +171,7 @@ func printGraphImage(indexed, directed, weighted bool) {
 	}
 
 	fmt.Println("")
-	fmt.Println("Exaple:")
+	fmt.Println("Example:")
 	fmt.Println()
 	fmt.Println("  ", nodeLeft, "--"+weightLeft+"-"+arrow, nodeMiddle, "--"+weightRight+"-"+arrow, nodeRight)
 }
