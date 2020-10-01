@@ -114,10 +114,14 @@ Please input your graph.
 3 1
 ```
 
+<img width="202" alt="スクリーンショット 2020-10-01 17 21 57" src="https://user-images.githubusercontent.com/47474057/94785469-a935ee00-040a-11eb-9d53-e4e71062fd2e.png">
+
+
 #### 0-indexed、重みなし有向グラフ
 
 ```
 ❯ ggg --indexed 0 --directed
+
 Options:
    indexed:  0
    directed:  true
