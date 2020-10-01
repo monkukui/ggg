@@ -116,10 +116,10 @@ func printGraphFormat(indexed, directed, weighted, matrix bool) {
 	fmt.Println("Format:")
 	fmt.Println("  ", n, m, "     (the number of nodes, the number of edges )")
 	if weighted {
-		fmt.Println("  ", u1, v1, w1, "   (edge infomations.. )")
+		fmt.Println("  ", u1, v1, w1, "   (edge informations.. )")
 		fmt.Println("  ", u2, v2, w2)
 	} else {
-		fmt.Println("  ", u1, v1, "     (edge infomations.. )")
+		fmt.Println("  ", u1, v1, "     (edge informations.. )")
 		fmt.Println("  ", u2, v2)
 	}
 }
