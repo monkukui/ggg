@@ -171,4 +171,5 @@ Please input your graph.
 1 2 5
 2 3 7
 ```
-images.githubusercontent.com/47474057/94785659-eb5f2f80-040a-11eb-8a91-692c94972c1b.png">
+
+<img width="202" alt="スクリーンショット 2020-10-01 17 24 03" src="https://user-images.githubusercontent.com/47474057/94785659-eb5f2f80-040a-11eb-8a91-692c94972c1b.png">
