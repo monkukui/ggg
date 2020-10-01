@@ -78,11 +78,11 @@ ggg --help
 ### オプション
 Command line flag syntax を用いて、グラフの形式を変更できます。
 
-|  Flags  |  Description  | default |
-| ---- | ---- | ---- |
-|  `-i, --indexed`  |  1-indexed であることを指定します。  | true |
-|  `-d, --directed`  |  有向でグラフであることを指定します。  | false |
-|  `-w, --weighted`  |  重み付きグラフであることを指定します。 | false |
+|  Flags  |  Description  | default | Usage |
+| ---- | ---- | ---- | ---- |
+|  `-i, --indexed`  |  1-indexed であることを指定します。  | true | `-i=0`, `-i=1`, `--indexed 0` |
+|  `-d, --directed`  |  有向でグラフであることを指定します。  | false | `-d` |
+|  `-w, --weighted`  |  重み付きグラフであることを指定します。 | false | `w` |
 
 
 ### Case Study
@@ -92,40 +92,77 @@ Command line flag syntax を用いて、グラフの形式を変更できます�
 ```
 ❯ ggg
 
-（省略）
+Options:
+   indexed:  1
+   directed:  false
+   weighted:  false
 
-please input your graph below...
+Exaple:
+
+   [1] ----- [2] ----- [3]
+
+Format:
+   3 2    (the number of nodes, the number of edges)
+   1 2    (edge informations)
+   2 3
+
+Please input your graph.
 >>> 
-3 2
+3 3
 1 2
 2 3
+3 1
 ```
 
 #### 0-indexed、重みなし有向グラフ
 
 ```
-❯ ggg --directed
+❯ ggg --indexed 0 --directed
+Options:
+   indexed:  0
+   directed:  true
+   weighted:  false
 
-（省略）
+Exaple:
 
-please input your graph below...
+   [0] ----> [1] ----> [2]
+
+Format:
+   3 2    (the number of nodes, the number of edges)
+   0 1    (edge informations)
+   1 2
+
+Please input your graph.
 >>> 
-3 2
+3 3
+0 1
 1 2
-2 3
+2 0
 ```
 
 #### 1-indexed、重みあり有向グラフ
 
 ```
-❯ ggg --directed --weighted
+❯ ggg --weighted --directed
 
-（省略）
+Options:
+   indexed:  1
+   directed:  true
+   weighted:  true
 
-please input your graph below...
+Exaple:
+
+   [1] --5-> [2] --7-> [3]
+
+Format:
+   3 2    (the number of nodes, the number of edges)
+   1 2 5  (edge informations)
+   2 3 7
+
+Please input your graph.
 >>> 
 3 2
-1 2 3
-2 3 5
+1 2 5
+2 3 7
 ```
 
