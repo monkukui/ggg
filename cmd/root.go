@@ -57,7 +57,7 @@ by optional flags.
 		}
 		*/
 
-		printLogo()
+		// printLogo()
 		fmt.Println("")
 		fmt.Println("Options:")
 		fmt.Println("   indexed: ", i)
