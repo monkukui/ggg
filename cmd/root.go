@@ -28,22 +28,27 @@ by optional flags.
 
 `,
 	Run: func(c *cobra.Command, args []string) {
-		printLogo()
 		// フラグ名で値を取得する
-		indexed, err := c.PersistentFlags().GetBool("indexed")
+		i, err := c.PersistentFlags().GetInt("indexed")
 		if err != nil {
-			fmt.Println(err)
-			return
+			log.Fatal(err)
 		}
+		var indexed bool
+		if i == 1 {
+			indexed = true
+		} else if i == 0 {
+			indexed = false
+		} else {
+			log.Fatal("--indexed flag must be 0 or 1")
+		}
+
 		directed, err := c.PersistentFlags().GetBool("directed")
 		if err != nil {
-			fmt.Println(err)
-			return
+			log.Fatal(err)
 		}
 		weighted, err := c.PersistentFlags().GetBool("weighted")
 		if err != nil {
-			fmt.Println(err)
-			return
+			log.Fatal(err)
 		}
 		/* matrix, err := c.PersistentFlags().GetBool("matrix")
 		if err != nil {
@@ -52,6 +57,7 @@ by optional flags.
 		}
 		*/
 
+		printLogo()
 		fmt.Println("")
 		fmt.Println("Options:")
 		fmt.Println("   indexed: ", indexed)
@@ -62,7 +68,7 @@ by optional flags.
 		printGraphFormat(indexed, directed, weighted, false)
 
 		fmt.Println("")
-		fmt.Println("please input your graph below...")
+		fmt.Println("Please input your graph.")
 
 		// validation をかけながら、入力を読む
 		var url string
@@ -85,8 +91,15 @@ by optional flags.
 }
 
 func printLogo() {
-	fmt.Println("go GRAPH × GRAPH")
-	fmt.Println("version 1.0.0")
+	fmt.Println(" ...   ...   ... ")
+	fmt.Println(".  .  .  .  .  . ")
+	fmt.Println(".  .  .  .  .  . ")
+	fmt.Println("....  ....  .... ")
+	fmt.Println(".     .     .    ")
+	fmt.Println("....  ....  .... ")
+	fmt.Println(".  .. .  .. .  ..")
+	fmt.Println("....  ....  ....    version 1.0.0")
+
 }
 
 func printGraphFormat(indexed, directed, weighted, matrix bool) {
@@ -158,7 +171,7 @@ func printGraphImage(indexed, directed, weighted bool) {
 	}
 
 	fmt.Println("")
-	fmt.Println("Image:")
+	fmt.Println("Exaple:")
 	fmt.Println()
 	fmt.Println("  ", nodeLeft, "--"+weightLeft+"-"+arrow, nodeMiddle, "--"+weightRight+"-"+arrow, nodeRight)
 }
@@ -243,7 +256,8 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().BoolP("indexed", "i", true, "graph is 1-indexed（if you want to visualize 0-indexed graph, you should add `-i=false` option）")
+	// rootCmd.PersistentFlags().BoolP("indexed", "i", true, "graph is 1-indexed（if you want to visualize 0-indexed graph, you should add `-i=false` option）")
+	rootCmd.PersistentFlags().IntP("indexed", "i", 1, "indexed option")
 	rootCmd.PersistentFlags().BoolP("directed", "d", false, "graph is directed")
 	rootCmd.PersistentFlags().BoolP("weighted", "w", false, "graph is weighted")
 	// rootCmd.PersistentFlags().BoolP("matrix", "m", false, "graph format is matrix")
