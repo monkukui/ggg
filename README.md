@@ -144,6 +144,8 @@ Please input your graph.
 2 0
 ```
 
+<img width="202" alt="スクリーンショット 2020-10-01 17 23 22" src="https://user-images.githubusercontent.com/47474057/94785633-e1d5c780-040a-11eb-97af-7e71ee0a64b8.png">
+
 #### 1-indexed、重みあり有向グラフ
 
 ```
