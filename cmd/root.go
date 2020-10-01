@@ -79,6 +79,8 @@ by optional flags.
 		if err := openbrowser(url); err != nil {
 			log.Fatal(err)
 		}
+
+		fmt.Println("visualized correctly ✨✨")
 	},
 }
 
@@ -99,8 +101,8 @@ func printGraphFormat(indexed, directed, weighted, matrix bool) {
 	v1 := 2
 	w1 := 5
 
-	u2 := 1
-	v2 := 2
+	u2 := 2
+	v2 := 3
 	w2 := 7
 
 	if !indexed {
