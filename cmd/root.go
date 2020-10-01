@@ -243,7 +243,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.PersistentFlags().BoolP("indexed", "i", true, "graph is 1-indexed（if you want to visualize 0-indexed graph, you should `-i=false` option）")
+	rootCmd.PersistentFlags().BoolP("indexed", "i", true, "graph is 1-indexed（if you want to visualize 0-indexed graph, you should add `-i=false` option）")
 	rootCmd.PersistentFlags().BoolP("directed", "d", false, "graph is directed")
 	rootCmd.PersistentFlags().BoolP("weighted", "w", false, "graph is weighted")
 	rootCmd.PersistentFlags().BoolP("matrix", "m", false, "graph format is matrix")
