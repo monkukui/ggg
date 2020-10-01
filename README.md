@@ -18,6 +18,11 @@
 > go get -u github.com/monkukui/ggg
 ```
 
+```
+ggg --help
+```
+を叩いて、起動すれば成功です。
+
 ## Usage（簡易版）
 
 各種オプションで、
