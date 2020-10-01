@@ -53,10 +53,10 @@ by optional flags.
 		*/
 
 		fmt.Println("")
-		fmt.Println("Option:")
-		fmt.Println("  indexed: ", indexed)
-		fmt.Println("  directed: ", directed)
-		fmt.Println("  weighted: ", weighted)
+		fmt.Println("Options:")
+		fmt.Println("   indexed: ", indexed)
+		fmt.Println("   directed: ", directed)
+		fmt.Println("   weighted: ", weighted)
 		// fmt.Println("  matrix: ", matrix)
 		printGraphImage(indexed, directed, weighted)
 		printGraphFormat(indexed, directed, weighted, false)
@@ -114,12 +114,12 @@ func printGraphFormat(indexed, directed, weighted, matrix bool) {
 
 	fmt.Println("")
 	fmt.Println("Format:")
-	fmt.Println("  ", n, m, "     (the number of nodes, the number of edges )")
+	fmt.Println("  ", n, m, "   (the number of nodes, the number of edges)")
 	if weighted {
-		fmt.Println("  ", u1, v1, w1, "   (edge informations.. )")
+		fmt.Println("  ", u1, v1, w1, " (edge informations)")
 		fmt.Println("  ", u2, v2, w2)
 	} else {
-		fmt.Println("  ", u1, v1, "     (edge informations.. )")
+		fmt.Println("  ", u1, v1, "   (edge informations)")
 		fmt.Println("  ", u2, v2)
 	}
 }
@@ -132,13 +132,13 @@ func printGraphImage(indexed, directed, weighted bool) {
 
 	var nodeLeft, nodeMiddle, nodeRight string
 	if indexed {
-		nodeLeft = "①"
-		nodeMiddle = "②"
-		nodeRight = "③"
+		nodeLeft = "[1]"
+		nodeMiddle = "[2]"
+		nodeRight = "[3]"
 	} else {
-		nodeLeft = "⓪"
-		nodeMiddle = "①"
-		nodeRight = "②"
+		nodeLeft = "[0]"
+		nodeMiddle = "[1]"
+		nodeRight = "[2]"
 	}
 
 	var weightLeft, weightRight string
@@ -159,11 +159,8 @@ func printGraphImage(indexed, directed, weighted bool) {
 
 	fmt.Println("")
 	fmt.Println("Image:")
-	fmt.Println("  ---------------------")
-	fmt.Println("  |                   |")
-	fmt.Println("  |", nodeLeft, "--"+weightLeft+"-"+arrow, nodeMiddle, "--"+weightRight+"-"+arrow, nodeRight, "|")
-	fmt.Println("  |                   |")
-	fmt.Println("  ---------------------")
+	fmt.Println()
+	fmt.Println("  ", nodeLeft, "--"+weightLeft+"-"+arrow, nodeMiddle, "--"+weightRight+"-"+arrow, nodeRight)
 }
 
 func readGraph(indexed, directed, weighted bool) (string, error) {
