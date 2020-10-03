@@ -19,7 +19,7 @@
 ```
 
 ```
-ggg --help
+> ggg --help
 ```
 を叩いて、起動すれば成功です。
 
@@ -36,7 +36,7 @@ ggg --help
 
 詳細は
 ```
-ggg --help
+> ggg --help
 ```
 で確認してください。
 
@@ -69,14 +69,14 @@ ggg --help
 
 ### 起動方法
 ```
-❯ ggg
+> ggg
 ```
 で起動します。
 
 ### ヘルプコマンド
 
 ```
-❯ ggg --help
+> ggg --help
 ```
 でヘルプを表示します。
 
@@ -95,7 +95,7 @@ Command line flag syntax を用いて、グラフの形式を変更できます�
 #### 1-indexed、重みなし無向グラフ
 
 ```
-❯ ggg
+> ggg
 
 Options:
    indexed:  1
@@ -125,7 +125,7 @@ Please input your graph.
 #### 0-indexed、重みなし有向グラフ
 
 ```
-❯ ggg --indexed 0 --directed
+> ggg --indexed 0 --directed
 
 Options:
    indexed:  0
@@ -154,7 +154,7 @@ Please input your graph.
 #### 1-indexed、重みあり有向グラフ
 
 ```
-❯ ggg --weighted --directed
+> ggg --weighted --directed
 
 Options:
    indexed:  1
