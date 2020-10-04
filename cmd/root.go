@@ -57,7 +57,6 @@ by optional flags.
 		}
 		*/
 
-		// printLogo()
 		fmt.Println("")
 		fmt.Println("Options:")
 		fmt.Println("   indexed: ", i)
@@ -88,18 +87,6 @@ by optional flags.
 
 		fmt.Println("visualized correctly ✨✨")
 	},
-}
-
-func printLogo() {
-	fmt.Println(" ...   ...   ... ")
-	fmt.Println(".  .  .  .  .  . ")
-	fmt.Println(".  .  .  .  .  . ")
-	fmt.Println("....  ....  .... ")
-	fmt.Println(".     .     .    ")
-	fmt.Println("....  ....  .... ")
-	fmt.Println(".  .. .  .. .  ..")
-	fmt.Println("....  ....  ....    version 1.0.0")
-
 }
 
 func printGraphFormat(indexed, directed, weighted, matrix bool) {
