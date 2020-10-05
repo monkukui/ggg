@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"bufio"
 	"bytes"
 	"errors"
 	"fmt"
@@ -10,6 +11,7 @@ import (
 	"runtime"
 	"strconv"
 
+	"github.com/monkukui/ggg/lib/graph"
 	"github.com/spf13/cobra"
 )
 
@@ -28,6 +30,7 @@ by optional flags.
 
 `,
 	Run: func(c *cobra.Command, args []string) {
+
 		// フラグ名で値を取得する
 		i, err := c.PersistentFlags().GetInt("indexed")
 		if err != nil {
@@ -75,7 +78,9 @@ by optional flags.
 			// TODO 隣接行列に対応
 			log.Fatal(errors.New("隣接行列にはまだ対応していません"))
 		} else {
-			url, err = readGraph(indexed, directed, weighted)
+			graph := graph.New()
+			scanner := bufio.NewScanner(graph.Stdin)
+			url, err = readGraph(indexed, directed, weighted, scanner)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -163,18 +168,29 @@ func printGraphImage(indexed, directed, weighted bool) {
 	fmt.Println("  ", nodeLeft, "--"+weightLeft+"-"+arrow, nodeMiddle, "--"+weightRight+"-"+arrow, nodeRight)
 }
 
-func readGraph(indexed, directed, weighted bool) (string, error) {
+func readGraph(indexed, directed, weighted bool, scanner *bufio.Scanner) (string, error) {
+
+	scanner.Split(bufio.ScanWords)
+
+	nextInt := func() int {
+		scanner.Scan()
+		i, e := strconv.Atoi(scanner.Text())
+		if e != nil {
+			panic(e)
+		}
+		return i
+	}
 
 	tf := map[bool]string{true: "true", false: "false"}
 
-	hostUrl := "https://hello-world-494ec.firebaseapp.com/index.html"
-	var queryUrl = bytes.NewBuffer(make([]byte, 0, 100))
-	queryUrl.WriteString("indexed=" + tf[indexed] + "&directed=" + tf[directed] + "&weighted=" + tf[weighted])
-	queryUrl.WriteString("&format=true&data=")
+	hostURL := "https://hello-world-494ec.firebaseapp.com/index.html"
+	var queryURL = bytes.NewBuffer(make([]byte, 0, 100))
+	queryURL.WriteString("indexed=" + tf[indexed] + "&directed=" + tf[directed] + "&weighted=" + tf[weighted])
+	queryURL.WriteString("&format=true&data=")
 
-	var n, m int
 	fmt.Print(">>> ")
-	fmt.Scan(&n, &m)
+	n := nextInt()
+	m := nextInt()
 	if n <= 0 {
 		return "", errors.New("n must be positive integer")
 	}
@@ -183,17 +199,20 @@ func readGraph(indexed, directed, weighted bool) (string, error) {
 		return "", errors.New("m must be non negative integer")
 	}
 
-	queryUrl.WriteString(strconv.Itoa(n) + "-" + strconv.Itoa(m))
+	queryURL.WriteString(strconv.Itoa(n) + "-" + strconv.Itoa(m))
 
 	for i := 0; i < m; i++ {
 
 		var a, b, c int
 		if weighted {
-			fmt.Scan(&a, &b, &c)
-			queryUrl.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b) + "-" + strconv.Itoa(c))
+			a = nextInt()
+			b = nextInt()
+			c = nextInt()
+			queryURL.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b) + "-" + strconv.Itoa(c))
 		} else {
-			fmt.Scan(&a, &b)
-			queryUrl.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b))
+			a = nextInt()
+			b = nextInt()
+			queryURL.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b))
 		}
 
 		if indexed {
@@ -213,7 +232,7 @@ func readGraph(indexed, directed, weighted bool) (string, error) {
 		}
 	}
 
-	url := hostUrl + "?" + queryUrl.String()
+	url := hostURL + "?" + queryURL.String()
 
 	return url, nil
 }
