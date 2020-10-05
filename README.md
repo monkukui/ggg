@@ -7,7 +7,6 @@
 
 `ggg` は、グラフ理論可視化サイト「GRAPH × GRAPH」をターミナル上で起動するための CLI ツールです。
 
-**注意**
 
 ## Requirement
 
