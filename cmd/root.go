@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"bufio"
 	"bytes"
 	"errors"
 	"fmt"
@@ -10,6 +11,7 @@ import (
 	"runtime"
 	"strconv"
 
+	"github.com/monkukui/ggg/lib/graph"
 	"github.com/spf13/cobra"
 )
 
@@ -28,6 +30,7 @@ by optional flags.
 
 `,
 	Run: func(c *cobra.Command, args []string) {
+
 		// フラグ名で値を取得する
 		i, err := c.PersistentFlags().GetInt("indexed")
 		if err != nil {
@@ -165,6 +168,19 @@ func printGraphImage(indexed, directed, weighted bool) {
 
 func readGraph(indexed, directed, weighted bool) (string, error) {
 
+	graph := graph.New()
+	scanner := bufio.NewScanner(graph.Stdin)
+	scanner.Split(bufio.ScanWords)
+
+	nextInt := func() int {
+		scanner.Scan()
+		i, e := strconv.Atoi(scanner.Text())
+		if e != nil {
+			panic(e)
+		}
+		return i
+	}
+
 	tf := map[bool]string{true: "true", false: "false"}
 
 	hostUrl := "https://hello-world-494ec.firebaseapp.com/index.html"
@@ -172,9 +188,9 @@ func readGraph(indexed, directed, weighted bool) (string, error) {
 	queryUrl.WriteString("indexed=" + tf[indexed] + "&directed=" + tf[directed] + "&weighted=" + tf[weighted])
 	queryUrl.WriteString("&format=true&data=")
 
-	var n, m int
 	fmt.Print(">>> ")
-	fmt.Scan(&n, &m)
+	n := nextInt()
+	m := nextInt()
 	if n <= 0 {
 		return "", errors.New("n must be positive integer")
 	}
@@ -189,10 +205,13 @@ func readGraph(indexed, directed, weighted bool) (string, error) {
 
 		var a, b, c int
 		if weighted {
-			fmt.Scan(&a, &b, &c)
+			a = nextInt()
+			b = nextInt()
+			c = nextInt()
 			queryUrl.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b) + "-" + strconv.Itoa(c))
 		} else {
-			fmt.Scan(&a, &b)
+			a = nextInt()
+			b = nextInt()
 			queryUrl.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b))
 		}
 
