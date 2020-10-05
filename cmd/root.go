@@ -78,7 +78,9 @@ by optional flags.
 			// TODO 隣接行列に対応
 			log.Fatal(errors.New("隣接行列にはまだ対応していません"))
 		} else {
-			url, err = readGraph(indexed, directed, weighted)
+			graph := graph.New()
+			scanner := bufio.NewScanner(graph.Stdin)
+			url, err = readGraph(indexed, directed, weighted, scanner)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -166,10 +168,8 @@ func printGraphImage(indexed, directed, weighted bool) {
 	fmt.Println("  ", nodeLeft, "--"+weightLeft+"-"+arrow, nodeMiddle, "--"+weightRight+"-"+arrow, nodeRight)
 }
 
-func readGraph(indexed, directed, weighted bool) (string, error) {
+func readGraph(indexed, directed, weighted bool, scanner *bufio.Scanner) (string, error) {
 
-	graph := graph.New()
-	scanner := bufio.NewScanner(graph.Stdin)
 	scanner.Split(bufio.ScanWords)
 
 	nextInt := func() int {
@@ -183,10 +183,10 @@ func readGraph(indexed, directed, weighted bool) (string, error) {
 
 	tf := map[bool]string{true: "true", false: "false"}
 
-	hostUrl := "https://hello-world-494ec.firebaseapp.com/index.html"
-	var queryUrl = bytes.NewBuffer(make([]byte, 0, 100))
-	queryUrl.WriteString("indexed=" + tf[indexed] + "&directed=" + tf[directed] + "&weighted=" + tf[weighted])
-	queryUrl.WriteString("&format=true&data=")
+	hostURL := "https://hello-world-494ec.firebaseapp.com/index.html"
+	var queryURL = bytes.NewBuffer(make([]byte, 0, 100))
+	queryURL.WriteString("indexed=" + tf[indexed] + "&directed=" + tf[directed] + "&weighted=" + tf[weighted])
+	queryURL.WriteString("&format=true&data=")
 
 	fmt.Print(">>> ")
 	n := nextInt()
@@ -199,7 +199,7 @@ func readGraph(indexed, directed, weighted bool) (string, error) {
 		return "", errors.New("m must be non negative integer")
 	}
 
-	queryUrl.WriteString(strconv.Itoa(n) + "-" + strconv.Itoa(m))
+	queryURL.WriteString(strconv.Itoa(n) + "-" + strconv.Itoa(m))
 
 	for i := 0; i < m; i++ {
 
@@ -208,11 +208,11 @@ func readGraph(indexed, directed, weighted bool) (string, error) {
 			a = nextInt()
 			b = nextInt()
 			c = nextInt()
-			queryUrl.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b) + "-" + strconv.Itoa(c))
+			queryURL.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b) + "-" + strconv.Itoa(c))
 		} else {
 			a = nextInt()
 			b = nextInt()
-			queryUrl.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b))
+			queryURL.WriteString("," + strconv.Itoa(a) + "-" + strconv.Itoa(b))
 		}
 
 		if indexed {
@@ -232,7 +232,7 @@ func readGraph(indexed, directed, weighted bool) (string, error) {
 		}
 	}
 
-	url := hostUrl + "?" + queryUrl.String()
+	url := hostURL + "?" + queryURL.String()
 
 	return url, nil
 }
